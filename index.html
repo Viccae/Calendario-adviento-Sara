@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Calendario de Adviento</title>
+<style>
+    body {
+        margin: 0;
+        font-family: Arial, sans-serif;
+        background: url('https://images.unsplash.com/photo-1608889175123-8c55a26a984d') center/cover no-repeat fixed;
+        backdrop-filter: blur(3px);
+        color: #fff;
+        text-align: center;
+    }
+    h1 {
+        margin-top: 20px;
+        text-shadow: 0 0 8px #000;
+    }
+    .grid {
+        display: grid;
+        grid-template-columns: repeat(4, 1fr);
+        gap: 15px;
+        max-width: 900px;
+        margin: 40px auto;
+        padding: 20px;
+    }
+    .door {
+        position: relative;
+        background: rgba(255, 0, 0, 0.8);
+        border: 2px solid #fff;
+        border-radius: 8px;
+        height: 120px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 32px;
+        cursor: pointer;
+        perspective: 800px;
+        box-shadow: 0 0 10px rgba(0,0,0,0.6);
+    }
+    .door.locked {
+        background: rgba(70, 70, 70, 0.7);
+        cursor: not-allowed;
+    }
+    .door-inner {
+        width: 100%;
+        height: 100%;
+        background: rgba(220, 20, 60, 0.9);
+        border-radius: 8px;
+        backface-visibility: hidden;
+        transform-origin: left;
+        transition: transform 1s ease;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+    .door.open .door-inner {
+        transform: rotateY(-100deg);
+    }
+    /* Modal */
+    #modal {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0,0,0,0.7);
+        display: none;
+        justify-content: center;
+        align-items: center;
+        padding: 20px;
+    }
+    #modal-content {
+        background: #fff;
+        color: #000;
+        max-width: 800px;
+        width: 90%;
+        padding: 20px;
+        border-radius: 10px;
+        box-shadow: 0 0 15px #000;
+        position: relative;
+    }
+    #close {
+        position: absolute;
+        top: 10px;
+        right: 15px;
+        font-size: 22px;
+        cursor: pointer;
+    }
+</style>
+</head>
+<body>
+<h1>Calendario de Adviento</h1>
+<div class="grid" id="grid"></div>
+
+<div id="modal">
+    <div id="modal-content">
+        <span id="close">X</span>
+        <div id="day-content"></div>
+    </div>
+</div>
+
+<script>
+// Configura aquí los contenidos de cada día
+// Puedes añadir: type: 'texto' | 'img' | 'video', y su contenido
+const content = {
+    1: {type:'texto', value:'Bienvenido al día 1. Que comience la magia.'},
+    2: {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'},
+    3: {type:'video', value:'https://www.youtube.com/embed/KnJj44WgXJc'},
+    4: {type:'texto', value:'Mensaje especial del día 4.'},
+    5: {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
+    6: {type:'texto', value:'Un pensamiento navideño.'},
+    7: {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'},
+    8: {type:'video', value:'https://www.youtube.com/embed/2g811Eo7K8U'},
+    9: {type:'texto', value:'Frase motivadora del día 9.'},
+    10: {type:'img', value:'https://images.unsplash.com/photo-1512389142860-9c449e58a543'},
+    11: {type:'texto', value:'Día 11: un deseo para ti.'},
+    12: {type:'img', value:'https://images.unsplash.com/photo-1482517967863-00e15c9b44ac'},
+    13: {type:'texto', value:'Mensaje navideño día 13.'},
+    14: {type:'img', value:'https://images.unsplash.com/photo-1544013335-5d5963b7fcf0'},
+    15: {type:'video', value:'https://www.youtube.com/embed/sNhhvQGsMEc'},
+    16: {type:'texto', value:'Día 16: energía y alegría.'},
+    17: {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'},
+    18: {type:'texto', value:'Día 18: ya falta poco.'},
+    19: {type:'img', value:'https://images.unsplash.com/photo-1601134467661-3d38eafa77a9'},
+    20: {type:'texto', value:'Día 20: magia en el aire.'},
+    21: {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'},
+    22: {type:'img', value:'https://images.unsplash.com/photo-1544198365-3c93c2d0c42d'},
+    23: {type:'texto', value:'Mañana es Nochebuena.'},
+    24: {type:'texto', value:'¡Feliz Navidad!'}
+};
+
+// Fecha actual
+const today = new Date();
+const currentDay = today.getDate();
+
+// Crear puertas
+const grid = document.getElementById('grid');
+for (let i = 1; i <= 24; i++) {
+    const door = document.createElement('div');
+    door.className = 'door';
+    if (i > currentDay) door.classList.add('locked');
+
+    const inner = document.createElement('div');
+    inner.className = 'door-inner';
+    inner.textContent = i;
+    door.appendChild(inner);
+
+    door.addEventListener('click', () => {
+        if (i > currentDay) return;
+        door.classList.add('open');
+        setTimeout(() => openModal(i), 1100);
+    });
+
+    grid.appendChild(door);
+}
+
+// Modal
+const modal = document.getElementById('modal');
+const closeBtn = document.getElementById('close');
+const contentBox = document.getElementById('day-content');
+
+function openModal(day) {
+    const data = content[day];
+    contentBox.innerHTML = '';
+
+    if (data.type === 'texto') {
+        contentBox.innerHTML = `<p>${data.value}</p>`;
+    } else if (data.type === 'img') {
+        contentBox.innerHTML = `<img src="${data.value}" style="max-width:100%;border-radius:10px;" />`;
+    } else if (data.type === 'video') {
+        contentBox.innerHTML = `<iframe width="100%" height="400" src="${data.value}" frameborder="0" allowfullscreen></iframe>`;
+    }
+    modal.style.display = 'flex';
+}
+
+closeBtn.onclick = () => {
+    modal.style.display = 'none';
+};
+
+modal.onclick = (e) => {
+    if (e.target === modal) modal.style.display = 'none';
+};
+</script>
+</body>
+</html>
