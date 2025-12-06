@@ -4,61 +4,71 @@
 <meta charset="UTF-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Calendario de Adviento</title>
+<link href="https://fonts.googleapis.com/css2?family=Mountains+of+Christmas:wght@700&family=Poppins:wght@300;400;600&display=swap" rel="stylesheet">
 <style>
     body {
         margin: 0;
-        font-family: Arial, sans-serif;
-        background: url('https://images.unsplash.com/photo-1608889175123-8c55a26a984d') center/cover no-repeat fixed;
-        backdrop-filter: blur(3px);
+        font-family: 'Poppins', sans-serif;
+        background: linear-gradient(rgba(0,0,0,0.4), rgba(0,0,0,0.4)), url('https://images.unsplash.com/photo-1543589077-47d81606c1bf') center/cover fixed no-repeat;
         color: #fff;
         text-align: center;
+        overflow-x: hidden;
     }
     h1 {
-        margin-top: 20px;
-        text-shadow: 0 0 8px #000;
+        font-family: 'Mountains of Christmas', cursive;
+        font-size: 60px;
+        margin-top: 40px;
+        text-shadow: 0 0 20px #000;
     }
     .grid {
         display: grid;
-        grid-template-columns: repeat(4, 1fr);
-        gap: 15px;
-        max-width: 900px;
-        margin: 40px auto;
+        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
+        gap: 20px;
+        max-width: 1000px;
+        margin: 50px auto;
         padding: 20px;
     }
     .door {
         position: relative;
-        background: rgba(255, 0, 0, 0.8);
-        border: 2px solid #fff;
-        border-radius: 8px;
-        height: 120px;
+        background: rgba(255, 0, 0, 0.85);
+        border: 3px solid rgba(255,255,255,0.9);
+        border-radius: 12px;
+        height: 160px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 32px;
+        font-size: 40px;
         cursor: pointer;
-        perspective: 800px;
-        box-shadow: 0 0 10px rgba(0,0,0,0.6);
+        perspective: 1000px;
+        box-shadow: 0 0 20px rgba(0,0,0,0.6);
+        transition: transform 0.2s ease;
+    }
+    .door:hover:not(.locked) {
+        transform: scale(1.05);
     }
     .door.locked {
-        background: rgba(70, 70, 70, 0.7);
+        background: rgba(120, 120, 120, 0.5);
         cursor: not-allowed;
+        filter: grayscale(70%);
     }
     .door-inner {
         width: 100%;
         height: 100%;
-        background: rgba(220, 20, 60, 0.9);
-        border-radius: 8px;
+        background: linear-gradient(#b30000, #ff3b3b);
+        border-radius: 12px;
         backface-visibility: hidden;
         transform-origin: left;
-        transition: transform 1s ease;
+        transition: transform 1s cubic-bezier(.68,-0.55,.27,1.55);
         display: flex;
         justify-content: center;
         align-items: center;
+        font-family: 'Mountains of Christmas', cursive;
     }
     .door.open .door-inner {
         transform: rotateY(-100deg);
     }
-    /* Modal */
+
+    /* Modal mejorado */
     #modal {
         position: fixed;
         top: 0;
@@ -76,18 +86,37 @@
         color: #000;
         max-width: 800px;
         width: 90%;
-        padding: 20px;
-        border-radius: 10px;
-        box-shadow: 0 0 15px #000;
+        padding: 30px;
+        border-radius: 12px;
+        box-shadow: 0 0 25px rgba(0,0,0,0.9);
         position: relative;
+        animation: pop 0.4s ease;
+    }
+    @keyframes pop {
+        from {transform: scale(0.5); opacity: 0;}
+        to {transform: scale(1); opacity: 1;}
     }
     #close {
         position: absolute;
         top: 10px;
         right: 15px;
-        font-size: 22px;
+        font-size: 30px;
         cursor: pointer;
+        font-weight: bold;
     }
+
+    /* Efecto nieve */
+    .snowflake {
+        position: fixed;
+        top: -10px;
+        color: white;
+        font-size: 18px;
+        animation: fall linear infinite;
+        opacity: 0.8;
+    }
+    @keyframes fall {
+        0% {transform: translateY(0);}
+        100% {transform: translateY(120vh);}    }
 </style>
 </head>
 <body>
@@ -102,40 +131,39 @@
 </div>
 
 <script>
-// Configura aquí los contenidos de cada día
-// Puedes añadir: type: 'texto' | 'img' | 'video', y su contenido
+// CONTENIDO PERSONALIZABLE
 const content = {
-    1: {type:'texto', value:'Bienvenido al día 1. Que comience la magia.'},
-    2: {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'},
+    1: {type:'texto', value:'Bienvenido al día 1. Que comience la magia navideña.'},
+    2: {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
     3: {type:'video', value:'https://www.youtube.com/embed/KnJj44WgXJc'},
-    4: {type:'texto', value:'Mensaje especial del día 4.'},
-    5: {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
-    6: {type:'texto', value:'Un pensamiento navideño.'},
+    4: {type:'texto', value:'Día 4: Un mensaje especial para ti.'},
+    5: {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'},
+    6: {type:'texto', value:'Día 6: Sonríe, la Navidad se acerca.'},
     7: {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'},
     8: {type:'video', value:'https://www.youtube.com/embed/2g811Eo7K8U'},
-    9: {type:'texto', value:'Frase motivadora del día 9.'},
+    9: {type:'texto', value:'Día 9: Que tu día brille.'},
     10: {type:'img', value:'https://images.unsplash.com/photo-1512389142860-9c449e58a543'},
-    11: {type:'texto', value:'Día 11: un deseo para ti.'},
+    11: {type:'texto', value:'Día 11: Te deseo paz y alegría.'},
     12: {type:'img', value:'https://images.unsplash.com/photo-1482517967863-00e15c9b44ac'},
-    13: {type:'texto', value:'Mensaje navideño día 13.'},
+    13: {type:'texto', value:'Día 13: Un abrazo navideño.'},
     14: {type:'img', value:'https://images.unsplash.com/photo-1544013335-5d5963b7fcf0'},
     15: {type:'video', value:'https://www.youtube.com/embed/sNhhvQGsMEc'},
-    16: {type:'texto', value:'Día 16: energía y alegría.'},
+    16: {type:'texto', value:'Día 16: Dulce energía para ti.'},
     17: {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'},
-    18: {type:'texto', value:'Día 18: ya falta poco.'},
+    18: {type:'texto', value:'Día 18: Sigue con ilusión.'},
     19: {type:'img', value:'https://images.unsplash.com/photo-1601134467661-3d38eafa77a9'},
-    20: {type:'texto', value:'Día 20: magia en el aire.'},
+    20: {type:'texto', value:'Día 20: Magia en el aire.'},
     21: {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'},
     22: {type:'img', value:'https://images.unsplash.com/photo-1544198365-3c93c2d0c42d'},
-    23: {type:'texto', value:'Mañana es Nochebuena.'},
+    23: {type:'texto', value:'Día 23: Mañana es Nochebuena.'},
     24: {type:'texto', value:'¡Feliz Navidad!'}
 };
 
-// Fecha actual
+// FECHA ACTUAL
 const today = new Date();
 const currentDay = today.getDate();
 
-// Crear puertas
+// CREACIÓN DE PUERTAS
 const grid = document.getElementById('grid');
 for (let i = 1; i <= 24; i++) {
     const door = document.createElement('div');
@@ -156,7 +184,7 @@ for (let i = 1; i <= 24; i++) {
     grid.appendChild(door);
 }
 
-// Modal
+// MODAL
 const modal = document.getElementById('modal');
 const closeBtn = document.getElementById('close');
 const contentBox = document.getElementById('day-content');
@@ -166,7 +194,7 @@ function openModal(day) {
     contentBox.innerHTML = '';
 
     if (data.type === 'texto') {
-        contentBox.innerHTML = `<p>${data.value}</p>`;
+        contentBox.innerHTML = `<p style="font-size:22px; line-height:1.5;">${data.value}</p>`;
     } else if (data.type === 'img') {
         contentBox.innerHTML = `<img src="${data.value}" style="max-width:100%;border-radius:10px;" />`;
     } else if (data.type === 'video') {
@@ -182,6 +210,19 @@ closeBtn.onclick = () => {
 modal.onclick = (e) => {
     if (e.target === modal) modal.style.display = 'none';
 };
+
+// NIEVE ANIMADA
+function createSnow() {
+    const snow = document.createElement('div');
+    snow.classList.add('snowflake');
+    snow.textContent = '❄';
+    snow.style.left = Math.random() * 100 + 'vw';
+    snow.style.animationDuration = 3 + Math.random() * 5 + 's';
+    snow.style.fontSize = 12 + Math.random() * 24 + 'px';
+    document.body.appendChild(snow);
+    setTimeout(() => snow.remove(), 8000);
+}
+setInterval(createSnow, 200);
 </script>
 </body>
 </html>
