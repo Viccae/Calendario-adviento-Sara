@@ -182,78 +182,102 @@
 // Ahora cada día acepta múltiples elementos en un array
 // type puede ser: 'texto', 'img', 'video'
 const content = {
-    1: [
+    1: [ 
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/1.jpg'},
         {type:'texto', value:'Día 1 (que en verdad es el día 8 o 9, no sé cuando lo voy a terminar). Que comience la magia navideña y que cuando menos te haga gracia y te sauqe una sonrisa esta tonteria'}
     ],
     2: [
-        {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
-        {type:'texto', value:'Un patito muy navideño para alegrarte el día.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/2.jpg'},
+        {type:'texto', value:'Es raro no poder enviarte regalos de verdad, así que tendrás que conformarte con regalos un poco más "conceptuales", por ejemplo, hoy te ha tocado un poco de brisa marina, porque no he podido coger mucha, como un pequeño soplido, así que mejor cierra las ventanas y no abras mucho para que no se te escape. Pero vamos, espero que al menos te llegue una leve brisa con olor a sal, a arena y a crema protectora nivea.'}
     ],
     3: [
-        {type:'video', value:'https://www.youtube.com/watch?v=C3dq4Kt7xEs'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/3.jpg'},
+        {type:'texto', value:'Hoy te ha tocado un jueguito, que es gratis, pero igual te lo regalo, se llama "That one otter game" y va de ser unas nutrias haciendo maldades por un pueblo, lo chachi es que es para jugar con alguien en co-op. Estoy seguiro que lo disfrutarías mucho. está gratis en steam'}
     ],
     4: [
-        {type:'texto', value:'Día 4: Un mensaje especial para ti.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/4.jpg'},
+        {type:'texto', value:'La espada de acabar las discusiones!!! Según la leyenda, el portador de esta espada podrá acabar cualquier discusión en la que participe, todos le darán la razón y olvidaran la pelea. Dicen que luego de usarse desaparece, así que no la malgastes.'}
     ],
     5: [
-        {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/5.jpg'},
+        {type:'img', value:'Te había traído una serpiente para que fuera tu amiga, pero creo que he tardado mucho en hacer esto y se ha cansado de esperar 😢. En fin, lo siento mucho, y recuerda, adopta y nunca compres'}
     ],
     6: [
-        {type:'texto', value:'Día 6: Sonríe, la Navidad se acerca.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/6.jpg'},
+        {type:'texto', value:'Los míticos pendientes de Edoard Collons!!! La leyenda dice que están hechos con los mismísimos Collons del Edoard!!! Y si reunes los tres artefactos legendarios de la C película, conseguiras el mayor poder del mundo .'}
     ],
     7: [
-        {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/7.jpg'},
+        {type:'texto', value:'Un pan que habla, es verdad que muy bajito, pero si pegas la oreja escuchas que dice: "Duro, bro" 😎😎'}
     ],
     8: [
-        {type:'video', value:'https://www.youtube.com/embed/2g811Eo7K8U'}
+        {type:'video', value:'https://www.youtube.com/watch?v=C3dq4Kt7xEs'},
+        {type:'texto', value:'Me pongo serio por un día, no sé si tu tienes canciones secretas y ocultas, que no quieres compartir con nadie más porque las consideras especiales y tuyas... bueno, yo sí, y esta es una de las mías. Y me gustaría compartirla contigo'},
     ],
     9: [
-        {type:'texto', value:'Día 9: Que tu día brille.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/9.jpg'},
+        {type:'texto', value:'El mítico artefacto top3nificador!!!  Con esto puedes coger cualquier tema y crear un top 3, puedes usarlo tanto para plantearselo a alguien más, como para usarlo tú solita.'}
     ],
     10: [
-        {type:'img', value:'https://images.unsplash.com/photo-1512389142860-9c449e58a543'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/10.jpg'},
+        {type:'texto', value:'LA SERPIENTE MOLONA NAVIDEÑA ESTÁ AQUI PARA DECIRTE QUE ERES MUY GUAY Y QUE MOLAS MUCHO. Al parecer se puso a jugar "serpientes y escaleras" mientras esperaba y termino aquí 🤣🤣. Recuerda, adopta y nunca compres!'}
     ],
     11: [
-        {type:'texto', value:'Día 11: Te deseo paz y alegría.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/11.jpg'},
+        {type:'texto', value:'La fabulosa Mantita de la C pelicula!!! Dicen que si te envuelves en ella, te dará tanto calorcito y te hará sentir tan cozy que te dormirás enseguida y cuando despiertes tendrás todas tus energías renovadas!!. Uno de los tres artefactos legendarios de la C película.'}
     ],
     12: [
-        {type:'img', value:'https://images.unsplash.com/photo-1482517967863-00e15c9b44ac'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/12.jpg'},
+        {type:'texto', value:'Un kit de Dectective de la Vibra!! Con esto serás capaz de detectar hasta la vibra más confusa y ambigua!!'}
     ],
     13: [
-        {type:'texto', value:'Día 13: Un abrazo navideño.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/13.jpg'},
+        {type:'texto', value:'JEJEJEEJEEJ CREIAS QUE TE IBAS A ESCAPAR DE LA GOMINOLA RELLENA DE MEJUNJE ASQUEROSO??? QUE TE IBAS A REIR DE MI Y TE IBAS A QUEDAR TAN PANCHA??? PUES TOMA!!! DISFRUTA DE SU DESAGRADABLE SORPRESA!!! MUAHAHAHAHAHAHA. En verdad no está tan mal y la puedes canjear por otra que te guste más'}
     ],
     14: [
-        {type:'img', value:'https://images.unsplash.com/photo-1544013335-5d5963b7fcf0'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/14.jpg'},
+        {type:'texto', value:'Circe te trae una cosa para que se te pase el sabor de ayer, yo no sé si me lo bebería, igual podrías ofrecerle a tu jefe o a alguien que no te caiga muy bien, y ya vemos que pasa👀 '}
     ],
     15: [
-        {type:'video', value:'https://www.youtube.com/embed/sNhhvQGsMEc'}
+        {type:'video', value:'https://www.youtube.com/watch?v=YmKVjlfxvyU'},
+        {type:'texto', value:'Otra canción secreta y oculta de mi cofre. Te la presto, pero promete no malgastarla'}
+        
     ],
     16: [
-        {type:'texto', value:'Día 16: Dulce energía para ti.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/16.jpg'},
+        {type:'texto', value:'Échate uno a mi salud...'}
     ],
     17: [
-        {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/17.jpg'},
+        {type:'texto', value:'El legendario molinillo blanco y rojo. Dicen que permite al usuario cambiar el tema de conversación en cualquier momento por el que elija. Desaparece después de usarse.'}
     ],
     18: [
-        {type:'texto', value:'Día 18: Sigue con ilusión.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/18.jpg'},
+        {type:'texto', value:'Te comparto un truco secreto, a veces uso esto para descubrir música, es una cosa que hizo la BBC para promocionar banditas y grupitos emergentes. Se llama BBC Orbit, y vas como saltando entre trocitos y fragmentos de canciones hasta que llegas a algo que te llame'}
     ],
     19: [
-        {type:'img', value:'https://images.unsplash.com/photo-1601134467661-3d38eafa77a9'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/19.jpg'},
+        {type:'texto', value:'Draculaura te manda un saludo y te desea que tengas una muy feliz Navidad!!'}
     ],
     20: [
-        {type:'texto', value:'Día 20: Magia en el aire.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/20.jpg'},
+        {type:'texto', value:'Una Vela mágica con una llama mágica que castea una sombra mágica. Dicen que es tan mágica que puede atravesar el espacio y el tiempo para inundar con una sensación de paz a quien la posea. Huele a vainilla'}
     ],
     21: [
-        {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'}
+        {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'},
+        {type:'texto', value:'Esta es otra canción que para mí es muy especial y tiene un significado personal. Sé que no es para todo el mundo y probablemente no te haga mucha gracia, pero quiero compartirla contigo'},
     ],
     22: [
-        {type:'img', value:'https://images.unsplash.com/photo-1544198365-3c93c2d0c42d'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/22.jpg'},
+        {type:'texto', value:'La campana de la Invocación Urgente!!  Permite a quien la toque llamar e invocar a otra persona, que no podrá resistirse y tendrá que dejar lo que sea que esté haciendo para acudir al llamado de la campana. No abuses de su poder.'}
     ],
     23: [
-        {type:'texto', value:'Día 23: Mañana es Nochebuena.'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/23.jpg'},
+        {type:'texto', value:'Un Ticket Dorado de la fábrica de los días!!!  Puedes canjearlo en cualquier momento para tener el mejor día posible del mundo, el tope de gama, lo último de lo último de los días chachis que tienen en la fábrica!!!.'}
     ],
     24: [
-        {type:'texto', value:'¡Feliz Navidad!'}
+        {type:'img', value:'https://viccae.github.io/Calendario-adviento-Sara/img/24.jpg'},
+        {type:'texto', value:'Te quiero muchísimo, Sara. Me gustaría mucho poder darte un regalo, pero hoy te digo que el regalo es para mí. Hoy y todos los días y todas las mañanas que hablo contigo, realmente. Te agardezco mucho que estés en mi vida, y que me hayas aguantado tanto tiempo sin salir huyendo. Espero que tengas un día super chachi molón ¡Feliz Navidad! '}
     ]
 };
 
