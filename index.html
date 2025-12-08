@@ -16,16 +16,16 @@
     }
     h1 {
         font-family: 'Mountains of Christmas', cursive;
-        font-size: 60px;
-        margin-top: 40px;
+        font-size: 40px;
+        margin-top: 30px;
         text-shadow: 0 0 20px #000;
     }
     .grid {
         display: grid;
-        grid-template-columns: repeat(auto-fit, minmax(150px, 1fr));
-        gap: 20px;
+        grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+        gap: 18px;
         max-width: 1000px;
-        margin: 50px auto;
+        margin: 40px auto;
         padding: 20px;
     }
     .door {
@@ -33,15 +33,16 @@
         background: rgba(255, 0, 0, 0.85);
         border: 3px solid rgba(255,255,255,0.9);
         border-radius: 12px;
-        height: 160px;
+        height: 150px;
         display: flex;
         align-items: center;
         justify-content: center;
-        font-size: 40px;
+        font-size: 34px;
         cursor: pointer;
         perspective: 1000px;
         box-shadow: 0 0 20px rgba(0,0,0,0.6);
         transition: transform 0.2s ease;
+        overflow: hidden;
     }
     .door:hover:not(.locked) {
         transform: scale(1.05);
@@ -54,7 +55,7 @@
     .door-inner {
         width: 100%;
         height: 100%;
-        background: linear-gradient(#b30000, #ff3b3b);
+        background: linear-gradient(145deg, #8b0000, #b30000, #ff4d4d);
         border-radius: 12px;
         backface-visibility: hidden;
         transform-origin: left;
@@ -63,9 +64,46 @@
         justify-content: center;
         align-items: center;
         font-family: 'Mountains of Christmas', cursive;
+        z-index: 2;
     }
     .door.open .door-inner {
         transform: rotateY(-100deg);
+    }
+
+    /* Nueva apariencia para puertas ya abiertas */
+    .door.opened-done {
+        background: rgba(0, 100, 0, 0.8);
+        border-color: #caffca;
+        box-shadow: 0 0 15px rgba(0,255,0,0.6);
+    }
+
+    /* Brillo especial al abrir por primera vez */
+    .door.shine {
+        animation: shineEffect 1.5s ease-out;
+    }
+    @keyframes shineEffect {
+        0% { box-shadow: 0 0 0px gold; }
+        50% { box-shadow: 0 0 25px gold; }
+        100% { box-shadow: 0 0 0px gold; }
+    }
+
+    .door-thumb {
+        position: absolute;
+        left: 5%;
+        top: 5%;
+        width: 90%;
+        height: 90%;
+        border-radius: 10px;
+        opacity: 0;
+        transition: opacity .6s ease, transform .6s ease;
+        object-fit: cover;
+        z-index: 1;
+        background-size: cover;
+        background-position: center;
+    }
+    .door.opened-done .door-thumb {
+        opacity: 1;
+        transform: scale(1);
     }
 
     /* Modal mejorado */
@@ -91,6 +129,8 @@
         box-shadow: 0 0 25px rgba(0,0,0,0.9);
         position: relative;
         animation: pop 0.4s ease;
+        max-height: 90vh;
+        overflow-y: auto;
     }
     @keyframes pop {
         from {transform: scale(0.5); opacity: 0;}
@@ -113,10 +153,17 @@
         font-size: 18px;
         animation: fall linear infinite;
         opacity: 0.8;
+        pointer-events: none;
     }
     @keyframes fall {
-        0% {transform: translateY(0);}
+        0% {transform: translateY(0);} 
         100% {transform: translateY(120vh);}    }
+
+    /* Responsivo */
+    @media (max-width: 480px) {
+        .door { height: 110px; font-size: 26px; }
+        h1 { font-size: 28px; }
+    }
 </style>
 </head>
 <body>
@@ -132,39 +179,94 @@
 
 <script>
 // CONTENIDO PERSONALIZABLE
+// Ahora cada día acepta múltiples elementos en un array
+// type puede ser: 'texto', 'img', 'video'
 const content = {
-    1: {type:'texto', value:'Día 1 (que en verdad es el día 8 o 9, no sé cuando lo voy a terminar). Que comience la magia navideña y que cuando menos te haga gracia y te sauqe una sonrisa esta tonteria'},
-    2: {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
-    3: {type:'video', value:'https://www.youtube.com/watch?v=C3dq4Kt7xEs'},
-    4: {type:'texto', value:'Día 4: Un mensaje especial para ti.'},
-    5: {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'},
-    6: {type:'texto', value:'Día 6: Sonríe, la Navidad se acerca.'},
-    7: {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'},
-    8: {type:'video', value:'https://www.youtube.com/embed/2g811Eo7K8U'},
-    9: {type:'texto', value:'Día 9: Que tu día brille.'},
-    10: {type:'img', value:'https://images.unsplash.com/photo-1512389142860-9c449e58a543'},
-    11: {type:'texto', value:'Día 11: Te deseo paz y alegría.'},
-    12: {type:'img', value:'https://images.unsplash.com/photo-1482517967863-00e15c9b44ac'},
-    13: {type:'texto', value:'Día 13: Un abrazo navideño.'},
-    14: {type:'img', value:'https://images.unsplash.com/photo-1544013335-5d5963b7fcf0'},
-    15: {type:'video', value:'https://www.youtube.com/embed/sNhhvQGsMEc'},
-    16: {type:'texto', value:'Día 16: Dulce energía para ti.'},
-    17: {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'},
-    18: {type:'texto', value:'Día 18: Sigue con ilusión.'},
-    19: {type:'img', value:'https://images.unsplash.com/photo-1601134467661-3d38eafa77a9'},
-    20: {type:'texto', value:'Día 20: Magia en el aire.'},
-    21: {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'},
-    22: {type:'img', value:'https://images.unsplash.com/photo-1544198365-3c93c2d0c42d'},
-    23: {type:'texto', value:'Día 23: Mañana es Nochebuena.'},
-    24: {type:'texto', value:'¡Feliz Navidad!'}
+    1: [
+        {type:'texto', value:'Día 1 (que en verdad es el día 8 o 9, no sé cuando lo voy a terminar). Que comience la magia navideña y que cuando menos te haga gracia y te sauqe una sonrisa esta tonteria'}
+    ],
+    2: [
+        {type:'img', value:'https://images.unsplash.com/photo-1544207240-6bb2d2c819b2'},
+        {type:'texto', value:'Un patito muy navideño para alegrarte el día.'}
+    ],
+    3: [
+        {type:'video', value:'https://www.youtube.com/watch?v=C3dq4Kt7xEs'}
+    ],
+    4: [
+        {type:'texto', value:'Día 4: Un mensaje especial para ti.'}
+    ],
+    5: [
+        {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'}
+    ],
+    6: [
+        {type:'texto', value:'Día 6: Sonríe, la Navidad se acerca.'}
+    ],
+    7: [
+        {type:'img', value:'https://images.unsplash.com/photo-1543589077-47d81606c1bf'}
+    ],
+    8: [
+        {type:'video', value:'https://www.youtube.com/embed/2g811Eo7K8U'}
+    ],
+    9: [
+        {type:'texto', value:'Día 9: Que tu día brille.'}
+    ],
+    10: [
+        {type:'img', value:'https://images.unsplash.com/photo-1512389142860-9c449e58a543'}
+    ],
+    11: [
+        {type:'texto', value:'Día 11: Te deseo paz y alegría.'}
+    ],
+    12: [
+        {type:'img', value:'https://images.unsplash.com/photo-1482517967863-00e15c9b44ac'}
+    ],
+    13: [
+        {type:'texto', value:'Día 13: Un abrazo navideño.'}
+    ],
+    14: [
+        {type:'img', value:'https://images.unsplash.com/photo-1544013335-5d5963b7fcf0'}
+    ],
+    15: [
+        {type:'video', value:'https://www.youtube.com/embed/sNhhvQGsMEc'}
+    ],
+    16: [
+        {type:'texto', value:'Día 16: Dulce energía para ti.'}
+    ],
+    17: [
+        {type:'img', value:'https://images.unsplash.com/photo-1607990283143-e81e7a2089d4'}
+    ],
+    18: [
+        {type:'texto', value:'Día 18: Sigue con ilusión.'}
+    ],
+    19: [
+        {type:'img', value:'https://images.unsplash.com/photo-1601134467661-3d38eafa77a9'}
+    ],
+    20: [
+        {type:'texto', value:'Día 20: Magia en el aire.'}
+    ],
+    21: [
+        {type:'video', value:'https://www.youtube.com/embed/ScMzIvxBSi4'}
+    ],
+    22: [
+        {type:'img', value:'https://images.unsplash.com/photo-1544198365-3c93c2d0c42d'}
+    ],
+    23: [
+        {type:'texto', value:'Día 23: Mañana es Nochebuena.'}
+    ],
+    24: [
+        {type:'texto', value:'¡Feliz Navidad!'}
+    ]
 };
 
 // FECHA ACTUAL
 const today = new Date();
 const currentDay = today.getDate();
 
-// CREACIÓN DE PUERTAS
+// CREACIÓN DE PUERTAS con memoria en localStorage
 const grid = document.getElementById('grid');
+
+// Cargar progreso guardado
+let openedDoors = JSON.parse(localStorage.getItem('openedDoors') || '[]');
+
 for (let i = 1; i <= 24; i++) {
     const door = document.createElement('div');
     door.className = 'door';
@@ -175,9 +277,61 @@ for (let i = 1; i <= 24; i++) {
     inner.textContent = i;
     door.appendChild(inner);
 
+    // Si la puerta ya fue abierta anteriormente → dejarla entreabierta y marcada
+    if (openedDoors.includes(i)) {
+        door.classList.add('open', 'opened-done');
+        inner.style.transform = 'rotateY(-40deg)';
+    }
+
+    // Miniatura según contenido
+    if (content[i]) {
+        const first = content[i][0];
+        let thumb;
+        if (first.type === 'img') {
+            thumb = document.createElement('img');
+            thumb.src = first.value;
+        } else {
+            thumb = document.createElement('div');
+            if (first.type === 'video') {
+                thumb.style.background = 'rgba(255,255,255,0.12) url(https://img.icons8.com/ios-filled/100/ffffff/play--v1.png) center/38% no-repeat';
+            } else if (first.type === 'texto') {
+                thumb.style.display = 'flex';
+                thumb.style.alignItems = 'center';
+                thumb.style.justifyContent = 'center';
+                thumb.style.fontSize = '14px';
+                thumb.style.color = '#fff';
+                thumb.style.background = 'rgba(255,255,255,0.1)';
+                thumb.style.padding = '10px';
+                thumb.textContent = 'Ya abierto';
+            }
+        }
+        if (thumb) {
+            thumb.className = 'door-thumb';
+            door.appendChild(thumb);
+        }
+    }
+
     door.addEventListener('click', () => {
         if (i > currentDay) return;
+
+        // Si no estaba abierta antes → animación y brillo especial
+        const firstOpen = !openedDoors.includes(i);
         door.classList.add('open');
+
+        setTimeout(() => {
+            door.classList.add('opened-done');
+            if (firstOpen) {
+                door.classList.add('shine');
+                setTimeout(() => door.classList.remove('shine'), 1500);
+            }
+        }, 900);
+
+        // Guardar progreso
+        if (firstOpen) {
+            openedDoors.push(i);
+            localStorage.setItem('openedDoors', JSON.stringify(openedDoors));
+        }
+
         setTimeout(() => openModal(i), 1100);
     });
 
@@ -190,16 +344,22 @@ const closeBtn = document.getElementById('close');
 const contentBox = document.getElementById('day-content');
 
 function openModal(day) {
-    const data = content[day];
+    const data = content[day] || [];
     contentBox.innerHTML = '';
 
-    if (data.type === 'texto') {
-        contentBox.innerHTML = `<p style="font-size:22px; line-height:1.5;">${data.value}</p>`;
-    } else if (data.type === 'img') {
-        contentBox.innerHTML = `<img src="${data.value}" style="max-width:100%;border-radius:10px;" />`;
-    } else if (data.type === 'video') {
-        contentBox.innerHTML = `<iframe width="100%" height="400" src="${data.value}" frameborder="0" allowfullscreen></iframe>`;
-    }
+    data.forEach(item => {
+        if (item.type === 'texto') {
+            contentBox.innerHTML += `<p style="font-size:22px; line-height:1.5; margin-bottom:15px;">${item.value}</p>`;
+        } else if (item.type === 'img') {
+            contentBox.innerHTML += `<img src="${item.value}" style="max-width:100%;border-radius:10px;margin:15px 0;" />`;
+        } else if (item.type === 'video') {
+            // Aceptar URLs tipo watch?v= y convertir a embed si es necesario
+            let src = item.value;
+            if (src.includes('watch?v=')) src = src.replace('watch?v=', 'embed/');
+            contentBox.innerHTML += `<div style="position:relative;padding-bottom:56.25%;height:0;overflow:hidden;border-radius:8px;margin:15px 0;"><iframe src="${src}" style="position:absolute;top:0;left:0;width:100%;height:100%;border:0;" allowfullscreen></iframe></div>`;
+        }
+    });
+
     modal.style.display = 'flex';
 }
 
